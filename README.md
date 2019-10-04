@@ -9,7 +9,7 @@ You also need to have access to Smite API, i.e. a developer id and an authentica
 
 ## How to use
 The script in its current form has a few example commands implemented. Your main code should be in 'Smite_StreamlabsSystem.py', but you're
-free to modify any of the files you'd like.
+free to modify any of the files you'd like. The connection/query logic is entirely in 'Smite_API.py' together with multiple useful enum classes (improvised enums, as proper `Enum` was added in Python 3.4).
 
 When you first import the script make sure you add your developer id and authentication key through the UI settings.
 
