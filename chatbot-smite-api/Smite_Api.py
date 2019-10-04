@@ -405,7 +405,6 @@ class SmiteClient(object):
             return False
 
     def _make_request(self, method, params=None):
-        self.logger('dev_id:' + self.dev_id + ' / auth_key' + self.auth_key)
         ts = self._get_timestamp()
         request = API_URL + '/{0}json/{1}/{2}/{3}/{4}'.format(method, self.dev_id, self._make_signature(method, ts),
                                                               self._get_session(), ts)
