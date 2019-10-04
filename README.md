@@ -13,6 +13,10 @@ free to modify any of the files you'd like. The connection/query logic is entire
 
 When you first import the script make sure you add your developer id and authentication key through the UI settings.
 
+Smite API Documentation: https://docs.google.com/document/d/1OFS-3ocSx-1Rvg4afAnEHlT3917MAK_6eJTR6rzr-BM/edit
+
+Streamlabs Chatbot Scripting Wiki: https://github.com/AnkhHeart/Streamlabs-Chatbot-Python-Boilerplate/wiki
+
 ## Interpreting API call results
 All API calls return different data structures of different size. All data returned is in the form of Python dictionary format so the best 
 way to examine the output is to log it as JSON. Since the chatbot will swallow any default prints, you could instead output data to a file 
