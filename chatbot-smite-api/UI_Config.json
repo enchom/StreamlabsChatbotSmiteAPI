@@ -1,0 +1,17 @@
+{
+    "AuthKey": {
+        "group": "Core", 
+        "label": "Authentication Key", 
+        "tooltip": "Your authentication key to access Smite API", 
+        "type": "textbox", 
+        "value": ""
+    }, 
+    "DevId": {
+        "group": "Core", 
+        "label": "Developer Id", 
+        "tooltip": "Your developer id to access Smite API", 
+        "type": "textbox", 
+        "value": ""
+    }, 
+    "output_file": "Settings/settings"
+}
