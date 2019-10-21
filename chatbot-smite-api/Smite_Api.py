@@ -2,7 +2,6 @@ import os
 import sys
 import json
 import hashlib
-from urllib import urlopen
 from datetime import datetime
 
 API_URL = 'http://api.smitegame.com/smiteapi.svc'
@@ -44,7 +43,7 @@ class Division:
             attr_val = getattr(Division, attr)
             if isinstance(attr_val, int):
                 if attr_val == div_id:
-                    return attr
+                    return attr.replace('_', ' ')
         return None
 
 
@@ -118,15 +117,19 @@ class Queue:
                 if attr_val == div_id:
                     return attr
         return None
-
+        
 class SmiteClient(object):
+    def GET(self, url, headers):
+        return json.loads(json.loads(self.Parent.GetRequest(url, headers))['response'])
+
     def set_auth_key(self, auth_key):
         self.auth_key = auth_key
 
     def set_dev_id(self, dev_id):
         self.dev_id = dev_id
 
-    def __init__(self, dev_id, auth_key, logger=lambda x: None):
+    def __init__(self, Parent, dev_id, auth_key, logger=lambda x: None):
+        self.Parent = Parent
         self.dev_id = dev_id
         self.auth_key = auth_key
         self.logger = logger
@@ -138,7 +141,7 @@ class SmiteClient(object):
         """
         A quick way of validating access to the Hi-Rez API.
         """
-        return json.loads(urlopen(API_URL + '/pingjson').read())
+        return self.GET(API_URL + '/pingjson', {})
 
     def get_data_used(self):
         """
@@ -384,7 +387,7 @@ class SmiteClient(object):
     def _create_session(self):
         ts = self._get_timestamp()
         request = API_URL + '/createsessionjson/{0}/{1}/{2}'.format(self.dev_id, self._make_signature('createsession', ts), ts)
-        response = json.loads(urlopen(request).read())
+        response = self.GET(request, {})
 
         if response['ret_msg'] != 'Approved':
             self.logger('[ERROR] Could not create session: ' + response['ret_msg'])
@@ -400,7 +403,7 @@ class SmiteClient(object):
         request = API_URL + '/testsessionjson/{0}/{1}/{2}/{3}'.format(self.dev_id,
                                                                 self._make_signature('testsession', ts), session, ts)
         try:
-            return 'successful' in json.loads(urlopen(request).read())
+            return 'successful' in self.GET(request, {})
         except:
             return False
 
@@ -408,7 +411,7 @@ class SmiteClient(object):
         ts = self._get_timestamp()
         request = API_URL + '/{0}json/{1}/{2}/{3}/{4}'.format(method, self.dev_id, self._make_signature(method, ts),
                                                               self._get_session(), ts)
-
+        
         if params is not None:
             request += '/{}'.format(params)
-        return json.loads(urlopen(request).read())
+        return self.GET(request, {})
